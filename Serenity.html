@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Serenity Grace — Restoring Eve</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@200;300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:      #fdf8f3;
+      --warm-white: #fff9f4;
+      --blush:      #f2c9c9;
+      --rose:       #d9848c;
+      --deep-rose:  #b85c6e;
+      --wine:       #7a2d3e;
+      --gold:       #c9973a;
+      --champagne:  #f0dfc0;
+      --mauve:      #c4909e;
+      --soft-brown: #6b4c52;
+      --dark:       #2a1a1f;
+      --text:       #4a3038;
+      --light-pink: #faeaec;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--mauve); border-radius: 3px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 3.5rem;
+      background: rgba(253,248,243,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(196,144,158,0.18);
+      transition: all .4s;
+    }
+    .nav-brand { display: flex; flex-direction: column; }
+    .nav-brand-name { font-family: 'Pinyon Script', cursive; font-size: 1.7rem; color: var(--deep-rose); line-height: 1; }
+    .nav-brand-sub { font-size: .58rem; letter-spacing: .25em; text-transform: uppercase; color: var(--mauve); font-weight: 300; margin-top: 1px; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text); text-decoration: none; font-weight: 400; transition: color .3s; }
+    .nav-links a:hover { color: var(--deep-rose); }
+    .nav-cta { font-family: 'DM Sans', sans-serif; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 500; color: #fff; background: var(--deep-rose); border: none; padding: .6rem 1.5rem; border-radius: 30px; cursor: pointer; transition: background .3s, transform .2s; text-decoration: none; }
+    .nav-cta:hover { background: var(--wine); transform: translateY(-2px); }
+
+    /* ── HERO ── */
+    .hero { position: relative; height: 100vh; min-height: 660px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; z-index: 0; background: linear-gradient(150deg, #f7d4d4 0%, #eabbc4 20%, #d4879a 45%, #a85068 70%, #6b2238 100%); }
+    .orb { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.45; pointer-events: none; z-index: 0; }
+    .orb-1 { width: 500px; height: 500px; background: #f5c0c8; top: -100px; left: -100px; animation: orbFloat 16s ease-in-out infinite alternate; }
+    .orb-2 { width: 400px; height: 400px; background: #c97b90; bottom: -80px; right: -80px; animation: orbFloat 20s ease-in-out infinite alternate-reverse; }
+    .orb-3 { width: 280px; height: 280px; background: #f0dfc0; top: 30%; left: 60%; animation: orbFloat 13s ease-in-out infinite alternate; }
+    @keyframes orbFloat { from { transform: translate(0,0) scale(1); } to { transform: translate(40px,30px) scale(1.08); } }
+    .hero-vignette { position: absolute; inset: 0; z-index: 1; background: linear-gradient(to bottom, transparent 40%, rgba(42,26,31,0.65) 100%); }
+    .hero-content { position: relative; z-index: 2; text-align: center; padding: 1.5rem 2rem; max-width: 760px; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: .6rem; font-size: .68rem; letter-spacing: .28em; text-transform: uppercase; color: var(--champagne); font-weight: 300; margin-bottom: 1.4rem; opacity: 0; animation: riseIn .8s .1s forwards; }
+    .hero-eyebrow::before, .hero-eyebrow::after { content:''; display:inline-block; width:32px; height:1px; background:var(--champagne); opacity:.6; }
+    .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 700; line-height: 1.08; color: #fff; text-shadow: 0 4px 40px rgba(42,26,31,.4); opacity: 0; animation: riseIn .9s .25s forwards; }
+    .hero-script { font-family: 'Pinyon Script', cursive; font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--champagne); display: block; margin-top: -.3em; opacity: 0; animation: riseIn .9s .4s forwards; }
+    .hero-verse { margin-top: 1.6rem; font-size: clamp(.82rem, 1.8vw, 1rem); font-weight: 300; font-style: italic; color: rgba(255,255,255,.82); letter-spacing: .04em; opacity: 0; animation: riseIn .9s .55s forwards; }
+    .hero-desc { margin-top: .8rem; font-size: clamp(.82rem, 1.8vw, .95rem); font-weight: 300; color: rgba(255,255,255,.75); max-width: 520px; margin-inline: auto; line-height: 1.8; opacity: 0; animation: riseIn .9s .65s forwards; }
+    .hero-btns { margin-top: 2.4rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; opacity: 0; animation: riseIn .9s .8s forwards; }
+    @keyframes riseIn { from { opacity:0; transform: translateY(22px); } to { opacity:1; transform: translateY(0); } }
+    .btn-primary { padding: .9rem 2.4rem; border-radius: 50px; background: #fff; color: var(--deep-rose); font-family: 'DM Sans', sans-serif; font-size: .76rem; letter-spacing: .16em; text-transform: uppercase; font-weight: 500; border: none; cursor: pointer; box-shadow: 0 8px 30px rgba(122,45,62,.35); transition: transform .25s, box-shadow .25s; text-decoration: none; display:inline-block; }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(122,45,62,.45); }
+    .btn-outline { padding: .9rem 2.4rem; border-radius: 50px; background: transparent; color: #fff; font-family: 'DM Sans', sans-serif; font-size: .76rem; letter-spacing: .16em; text-transform: uppercase; font-weight: 400; border: 1.5px solid rgba(255,255,255,.65); cursor: pointer; transition: all .3s; text-decoration: none; display:inline-block; }
+    .btn-outline:hover { background: rgba(255,255,255,.15); border-color: #fff; transform: translateY(-2px); }
+    .hero-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; flex-direction: column; align-items: center; gap: .4rem; }
+    .scroll-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.5); animation: bounceDown 1.8s ease-in-out infinite; }
+    .scroll-dot:nth-child(2) { animation-delay: .2s; }
+    .scroll-dot:nth-child(3) { animation-delay: .4s; }
+    @keyframes bounceDown { 0%,100% { transform: translateY(0); opacity:.3; } 50% { transform: translateY(8px); opacity:1; } }
+
+    /* ── IDENTITY STRIP ── */
+    .identity-strip { background: var(--deep-rose); display: flex; justify-content: center; align-items: center; flex-wrap: wrap; }
+    .id-item { padding: 1.1rem 2.5rem; font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.8); font-weight: 300; border-right: 1px solid rgba(255,255,255,.2); white-space: nowrap; }
+    .id-item:last-child { border-right: none; }
+    .id-item strong { color: #fff; font-weight: 500; }
+
+    /* ── VIDEO SECTION ── */
+    .video-section {
+      background: var(--dark);
+      padding: 7rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .video-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 20% 50%, rgba(184,92,110,.18) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 50%, rgba(196,144,158,.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .video-inner {
+      max-width: 1000px; margin-inline: auto;
+      display: grid; grid-template-columns: 1fr 1.6fr; gap: 5rem;
+      align-items: center; position: relative; z-index: 1;
+    }
+    .video-text { }
+    .video-text .section-pill { color: var(--rose); }
+    .video-text .section-pill::before { content: '▶'; font-size: .55rem; }
+    .video-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 500; color: #fff;
+      line-height: 1.25; margin-bottom: 1.2rem;
+    }
+    .video-text h2 em { font-style: italic; color: var(--champagne); }
+    .video-text p {
+      font-size: .9rem; line-height: 1.85; font-weight: 300;
+      color: rgba(255,255,255,.65); margin-bottom: 1.2rem;
+    }
+    .video-text p strong { color: var(--champagne); font-weight: 500; }
+    .video-watch-btn {
+      display: inline-flex; align-items: center; gap: .8rem;
+      margin-top: .8rem;
+      padding: .85rem 2rem; border-radius: 50px;
+      background: linear-gradient(135deg, var(--deep-rose), var(--mauve));
+      color: #fff; text-decoration: none;
+      font-family: 'DM Sans', sans-serif; font-size: .76rem;
+      letter-spacing: .14em; text-transform: uppercase; font-weight: 500;
+      box-shadow: 0 8px 28px rgba(184,92,110,.4);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .video-watch-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(184,92,110,.55); }
+    .video-watch-btn .play-icon {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; flex-shrink: 0;
+    }
+
+    /* Phone mockup frame */
+    .video-phone-wrap {
+      position: relative;
+      display: flex; justify-content: center; align-items: center;
+    }
+    /* Glow behind phone */
+    .video-phone-wrap::before {
+      content: '';
+      position: absolute; inset: -40px;
+      background: radial-gradient(ellipse, rgba(184,92,110,.35) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: glowPulse 4s ease-in-out infinite alternate;
+    }
+    @keyframes glowPulse {
+      from { opacity: .5; transform: scale(.95); }
+      to   { opacity: 1;  transform: scale(1.05); }
+    }
+    .phone-frame {
+      position: relative; z-index: 2;
+      width: 260px;
+      background: #1a0a0e;
+      border-radius: 42px;
+      padding: 14px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.08),
+        0 40px 80px rgba(0,0,0,.7),
+        0 0 60px rgba(184,92,110,.2);
+    }
+    /* Notch */
+    .phone-notch {
+      width: 90px; height: 24px;
+      background: #1a0a0e;
+      border-radius: 0 0 16px 16px;
+      margin: 0 auto 8px;
+      position: relative; z-index: 3;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .notch-dot { width: 8px; height: 8px; border-radius: 50%; background: #2a1a1f; }
+    .notch-bar { width: 36px; height: 4px; border-radius: 2px; background: #2a1a1f; }
+    .phone-screen {
+      border-radius: 30px;
+      overflow: hidden;
+      background: linear-gradient(160deg, #3a1020 0%, #7a2d3e 40%, #c47e90 100%);
+      aspect-ratio: 9/16;
+      position: relative;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    /* Animated gradient shimmer on screen */
+    .phone-screen::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(245,192,200,.15) 0%,
+        transparent 40%,
+        rgba(201,151,58,.1) 100%
+      );
+      animation: shimmer 5s ease-in-out infinite alternate;
+    }
+    @keyframes shimmer {
+      from { opacity: .4; }
+      to   { opacity: 1; }
+    }
+    /* Fake video content inside screen */
+    .screen-content {
+      position: relative; z-index: 2;
+      text-align: center; padding: 1.5rem 1rem;
+      display: flex; flex-direction: column; align-items: center; gap: .8rem;
+    }
+    .screen-logo {
+      font-family: 'Pinyon Script', cursive;
+      font-size: 1.8rem; color: rgba(255,255,255,.9);
+    }
+    /* Big play button */
+    .play-circle {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(255,255,255,.15);
+      border: 2px solid rgba(255,255,255,.5);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      transition: transform .3s, background .3s;
+      backdrop-filter: blur(6px);
+    }
+    .phone-screen:hover .play-circle {
+      transform: scale(1.12);
+      background: rgba(255,255,255,.28);
+    }
+    .screen-label {
+      font-size: .65rem; letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(255,255,255,.7); font-weight: 300;
+    }
+    /* Instagram icon bar at bottom of screen */
+    .screen-insta-bar {
+      position: absolute; bottom: 1rem; left: 0; right: 0;
+      display: flex; justify-content: center; gap: 1.2rem;
+      z-index: 3;
+    }
+    .insta-bar-icon { font-size: 1.1rem; opacity: .7; }
+    /* Decorative floating hearts */
+    .float-heart {
+      position: absolute; font-size: 1.1rem; opacity: 0;
+      animation: floatHeart 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .float-heart:nth-child(1) { right: -30px; top: 30%; animation-delay: 0s; }
+    .float-heart:nth-child(2) { right: -20px; top: 55%; animation-delay: 1s; }
+    .float-heart:nth-child(3) { right: -35px; top: 70%; animation-delay: 2s; }
+    @keyframes floatHeart {
+      0%   { opacity: 0; transform: translateY(0) scale(.8); }
+      30%  { opacity: .8; }
+      100% { opacity: 0; transform: translateY(-60px) scale(1.2); }
+    }
+    /* Side decorative elements */
+    .video-side-deco {
+      position: absolute; right: 3rem; top: 50%; transform: translateY(-50%);
+      display: flex; flex-direction: column; gap: 1.2rem; z-index: 1;
+    }
+    .side-stat {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px; padding: .8rem 1.2rem;
+      text-align: center; min-width: 90px;
+    }
+    .side-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 700; color: var(--champagne);
+      display: block;
+    }
+    .side-stat-label {
+      font-size: .6rem; letter-spacing: .15em; text-transform: uppercase;
+      color: rgba(255,255,255,.45); margin-top: 2px; display: block;
+    }
+
+    /* ── ABOUT ── */
+    .about { display: grid; grid-template-columns: 1fr 1fr; min-height: 620px; }
+    .about-visual { position: relative; overflow: hidden; background: linear-gradient(160deg, #f5ccd0 0%, #c47e90 50%, #8a3d52 100%); display: flex; align-items: center; justify-content: center; min-height: 500px; }
+    .about-quote-block { position: relative; z-index: 2; padding: 3rem; text-align: center; }
+    .big-quote { font-family: 'Pinyon Script', cursive; font-size: clamp(3rem, 5.5vw, 5rem); color: rgba(255,255,255,.9); line-height: 1.35; text-shadow: 0 4px 20px rgba(42,26,31,.3); }
+    .quote-source { margin-top: 1.2rem; font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.65); font-weight: 300; }
+    .deco-cross { position: absolute; top: 2rem; right: 2rem; font-size: 1.4rem; color: rgba(255,255,255,.3); }
+    .about-text { background: var(--warm-white); display: flex; flex-direction: column; justify-content: center; padding: 5rem 4.5rem; }
+    .section-pill { display: inline-flex; align-items: center; gap: .5rem; font-size: .65rem; letter-spacing: .22em; text-transform: uppercase; color: var(--deep-rose); font-weight: 500; margin-bottom: 1.4rem; }
+    .section-pill::before { content:'✦'; font-size: .55rem; }
+    .about-text h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.7rem); font-weight: 500; line-height: 1.25; color: var(--dark); margin-bottom: 1.4rem; }
+    .about-text h2 em { font-style: italic; color: var(--deep-rose); }
+    .about-text p { font-size: .92rem; line-height: 1.9; font-weight: 300; color: var(--text); margin-bottom: 1rem; max-width: 440px; }
+    .about-text p strong { color: var(--deep-rose); font-weight: 500; }
+    .press-badge { margin-top: 1.8rem; display: inline-flex; align-items: center; gap: .7rem; padding: .7rem 1.3rem; border-radius: 40px; background: var(--light-pink); border: 1px solid rgba(196,144,158,.3); }
+    .press-badge-text { font-size: .72rem; color: var(--soft-brown); line-height: 1.4; }
+    .press-badge-text strong { color: var(--deep-rose); font-weight: 500; display: block; }
+
+    /* ── EVENTS ── */
+    .events { padding: 7rem 5rem; background: var(--cream); }
+    .section-header { text-align: center; margin-bottom: 4rem; }
+    .section-header h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 500; color: var(--dark); margin-bottom: .6rem; }
+    .section-header h2 em { color: var(--deep-rose); font-style: italic; }
+    .section-header p { font-size: .9rem; color: var(--text); font-weight: 300; max-width: 480px; margin-inline: auto; line-height: 1.7; }
+    .events-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem; max-width: 1100px; margin-inline: auto; }
+    .event-card { border-radius: 18px; overflow: hidden; background: var(--warm-white); border: 1px solid rgba(196,144,158,.2); transition: transform .35s, box-shadow .35s; }
+    .event-card:hover { transform: translateY(-8px); box-shadow: 0 22px 55px rgba(184,92,110,.18); }
+    .event-card-top { height: 200px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .missing-rib { background: linear-gradient(145deg, #1a0a0e 0%, #4a0c1e 50%, #7a1a30 100%); }
+    .in-garden { background: linear-gradient(145deg, #c8e6c0 0%, #e8d4c0 50%, #f5e8d5 100%); }
+    .skool-card { background: linear-gradient(145deg, #f0e0f0 0%, #e0c8d8 50%, #c8a0b8 100%); }
+    .event-emoji { font-size: 3.5rem; position: relative; z-index: 1; }
+    .event-ribbon { position: absolute; top: 1rem; right: 1rem; font-size: .65rem; letter-spacing: .14em; text-transform: uppercase; padding: .35rem .8rem; border-radius: 20px; font-weight: 500; }
+    .ribbon-upcoming { background: rgba(255,255,255,.9); color: var(--deep-rose); }
+    .ribbon-free { background: rgba(255,255,255,.9); color: #4a7c4e; }
+    .ribbon-past { background: rgba(0,0,0,.3); color: rgba(255,255,255,.8); }
+    .event-card-body { padding: 1.8rem 1.8rem 2rem; }
+    .event-tag { font-size: .64rem; letter-spacing: .18em; text-transform: uppercase; color: var(--mauve); font-weight: 500; margin-bottom: .6rem; }
+    .event-card-body h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 500; color: var(--dark); margin-bottom: .6rem; line-height: 1.3; }
+    .event-card-body p { font-size: .85rem; line-height: 1.75; color: var(--text); font-weight: 300; margin-bottom: 1.2rem; }
+    .event-details { display: flex; flex-direction: column; gap: .35rem; }
+    .event-detail-row { display: flex; align-items: center; gap: .55rem; font-size: .78rem; color: var(--soft-brown); font-weight: 300; }
+    .event-btn { display: inline-block; margin-top: 1.4rem; padding: .6rem 1.4rem; border-radius: 30px; background: var(--light-pink); color: var(--deep-rose); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 500; text-decoration: none; border: 1px solid rgba(184,92,110,.2); transition: background .3s, transform .2s; }
+    .event-btn:hover { background: var(--deep-rose); color: #fff; transform: translateY(-1px); }
+    .event-btn.filled { background: var(--deep-rose); color: #fff; }
+    .event-btn.filled:hover { background: var(--wine); }
+    .event-btn.green { background: #4a7c4e; color: #fff; border-color: #4a7c4e; }
+    .event-btn.green:hover { background: #3a6040; }
+
+    /* ── MISSION QUOTE ── */
+    .mission-quote { background: var(--dark); padding: 7rem 3rem; text-align: center; position: relative; overflow: hidden; }
+    .mission-quote::before { content: '"'; position: absolute; top: -2rem; left: 2rem; font-family: 'Playfair Display', serif; font-size: 28rem; color: rgba(196,144,158,.06); line-height: 1; pointer-events: none; }
+    .mission-inner { max-width: 800px; margin-inline: auto; position: relative; z-index: 1; }
+    .mission-quote blockquote { font-family: 'Playfair Display', serif; font-size: clamp(1.3rem, 3vw, 2.1rem); font-weight: 400; font-style: italic; color: #fff; line-height: 1.65; margin-bottom: 1.8rem; }
+    .mission-attribution { font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.45); font-weight: 300; }
+    .mission-tags { display: flex; flex-wrap: wrap; gap: .7rem; justify-content: center; margin-top: 2.5rem; }
+    .mission-tag { padding: .45rem 1.2rem; border-radius: 30px; border: 1px solid rgba(196,144,158,.3); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.6); font-weight: 300; }
+
+    /* ── FEATURE ── */
+    .feature-section { display: grid; grid-template-columns: 1fr 1fr; }
+    .feature-text { background: var(--light-pink); display: flex; flex-direction: column; justify-content: center; padding: 5.5rem 4.5rem; }
+    .feature-text h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 500; color: var(--dark); margin-bottom: 1.2rem; line-height: 1.3; }
+    .feature-text h2 em { color: var(--deep-rose); font-style: italic; }
+    .feature-text p { font-size: .92rem; line-height: 1.9; color: var(--text); font-weight: 300; margin-bottom: .9rem; max-width: 430px; }
+    .feature-text p strong { color: var(--deep-rose); font-weight: 500; }
+    .feature-text a.read-more { margin-top: 1rem; display: inline-flex; align-items: center; gap: .5rem; font-size: .76rem; letter-spacing: .16em; text-transform: uppercase; color: var(--deep-rose); font-weight: 500; text-decoration: none; transition: gap .3s; }
+    .feature-text a.read-more:hover { gap: .9rem; }
+    .feature-visual { background: linear-gradient(160deg, #f0d4d8 0%, #d4889a 50%, #9a3d52 100%); display: flex; align-items: center; justify-content: center; min-height: 480px; }
+    .magazine-badge { background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3); border-radius: 16px; padding: 2rem 2.5rem; backdrop-filter: blur(10px); text-align: center; }
+    .mag-label { font-size: .65rem; letter-spacing: .25em; text-transform: uppercase; color: rgba(255,255,255,.7); margin-bottom: .8rem; }
+    .mag-title { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: .4rem; }
+    .mag-title em { font-style: italic; font-weight: 400; color: var(--champagne); }
+    .mag-sub { font-size: .78rem; color: rgba(255,255,255,.7); font-weight: 300; line-height: 1.5; }
+    .mag-divider { width: 40px; height: 1px; background: rgba(255,255,255,.4); margin: 1rem auto; }
+    .mag-author { font-family: 'Pinyon Script', cursive; font-size: 2rem; color: var(--champagne); }
+
+    /* ── COMMUNITY ── */
+    .community { padding: 7rem 3rem; background: linear-gradient(180deg, var(--cream) 0%, var(--light-pink) 100%); text-align: center; }
+    .community h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 500; color: var(--dark); margin-bottom: .7rem; }
+    .community h2 em { color: var(--deep-rose); font-style: italic; }
+    .community > p { font-size: .92rem; color: var(--text); font-weight: 300; max-width: 520px; margin-inline: auto; line-height: 1.8; margin-bottom: 3.5rem; }
+    .community-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 900px; margin-inline: auto; }
+    .community-card { background: rgba(255,255,255,.75); border: 1px solid rgba(196,144,158,.2); border-radius: 16px; padding: 2.2rem 1.8rem; transition: transform .3s, box-shadow .3s; }
+    .community-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(184,92,110,.12); }
+    .community-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+    .community-card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 500; color: var(--dark); margin-bottom: .6rem; }
+    .community-card p { font-size: .84rem; line-height: 1.75; color: var(--text); font-weight: 300; }
+
+    /* ── DONATE ── */
+    .donate-banner { background: linear-gradient(135deg, #f5e8d8 0%, #f0d4d8 100%); border-top: 1px solid rgba(196,144,158,.2); border-bottom: 1px solid rgba(196,144,158,.2); padding: 4rem 3rem; text-align: center; }
+    .donate-banner h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 500; color: var(--dark); margin-bottom: .7rem; }
+    .donate-banner h2 em { font-style: italic; color: var(--deep-rose); }
+    .donate-banner p { font-size: .9rem; color: var(--text); font-weight: 300; max-width: 480px; margin-inline: auto; line-height: 1.8; margin-bottom: 2rem; }
+    .donate-btn { display: inline-block; padding: .95rem 2.8rem; border-radius: 50px; background: var(--gold); color: #fff; font-family: 'DM Sans', sans-serif; font-size: .76rem; letter-spacing: .18em; text-transform: uppercase; font-weight: 500; text-decoration: none; box-shadow: 0 8px 28px rgba(201,151,58,.35); transition: transform .25s, box-shadow .25s; }
+    .donate-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(201,151,58,.45); }
+
+    /* ── CONNECT CTA ── */
+    .connect-cta { background: linear-gradient(135deg, var(--wine) 0%, var(--deep-rose) 50%, var(--mauve) 100%); padding: 7rem 3rem; text-align: center; position: relative; overflow: hidden; }
+    .connect-cta::before { content:''; position:absolute; top:-80px; right:-80px; width:300px; height:300px; border-radius:50%; background: rgba(255,255,255,.06); pointer-events: none; }
+    .connect-cta h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; font-style: italic; color: #fff; margin-bottom: .8rem; position: relative; z-index: 1; }
+    .connect-cta p { font-size: .92rem; color: rgba(255,255,255,.8); font-weight: 300; max-width: 480px; margin-inline: auto; margin-bottom: 2.5rem; line-height: 1.8; position: relative; z-index: 1; }
+    .connect-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+    .btn-ghost-white { padding: .9rem 2.4rem; border-radius: 50px; background: rgba(255,255,255,.18); color: #fff; font-family: 'DM Sans', sans-serif; font-size: .76rem; letter-spacing: .16em; text-transform: uppercase; font-weight: 400; border: 1.5px solid rgba(255,255,255,.4); cursor: pointer; transition: all .3s; text-decoration: none; display:inline-block; }
+    .btn-ghost-white:hover { background: rgba(255,255,255,.28); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer { background: var(--dark); padding: 3.5rem 3rem 2rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .footer-brand { font-family: 'Pinyon Script', cursive; font-size: 2.2rem; color: var(--champagne); }
+    .footer-tagline { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.35); font-weight: 300; }
+    .footer-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; justify-content: center; margin-top: .5rem; }
+    .footer-links a { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.45); text-decoration: none; transition: color .3s; }
+    .footer-links a:hover { color: var(--rose); }
+    .footer-copy { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.08); font-size: .7rem; color: rgba(255,255,255,.3); letter-spacing: .06em; text-align: center; width: 100%; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .about, .feature-section { grid-template-columns: 1fr; }
+      .about-visual { min-height: 300px; }
+      .about-text, .feature-text { padding: 3.5rem 2rem; }
+      .feature-visual { min-height: 300px; }
+      .events { padding: 5rem 1.5rem; }
+      .events-grid { grid-template-columns: 1fr; }
+      .community { padding: 5rem 1.5rem; }
+      .community-grid { grid-template-columns: 1fr; }
+      .identity-strip { flex-direction: column; }
+      .id-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,.15); text-align: center; }
+      .video-inner { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+      .video-phone-wrap { order: -1; }
+      .video-side-deco { display: none; }
+    }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .75s ease, transform .75s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-brand-name">Serenity Grace</div>
+    <div class="nav-brand-sub">Restoring Eve Community</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#watch">Watch</a></li>
+    <li><a href="#events">Events</a></li>
+    <li><a href="#community">Community</a></li>
+    <li><a href="#connect">Connect</a></li>
+  </ul>
+  <a class="nav-cta" href="https://checkout.square.site/merchant/MLPSA8BQCDR3V/checkout/HTCVISHTWYTZ3TEUUFJ26JGQ" target="_blank">Get Tickets</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Faith · Community · Purpose</p>
+    <h1 class="hero-title">Building Women<br>Who Walk in</h1>
+    <span class="hero-script">Their Calling</span>
+    <p class="hero-verse">"She is clothed with strength and dignity." — Proverbs 31:25</p>
+    <p class="hero-desc">I'm Serenity Magee — founder of Restoring Eve Community. I create spaces where women are seen, supported, and strengthened to walk boldly in who God called them to be.</p>
+    <div class="hero-btns">
+      <a class="btn-primary" href="https://checkout.square.site/merchant/MLPSA8BQCDR3V/checkout/HTCVISHTWYTZ3TEUUFJ26JGQ" target="_blank">Get Missing Rib Tickets</a>
+      <a class="btn-outline" href="https://www.skool.com/becoming-her-9746/about" target="_blank">Join the Community — Free</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-dot"></div>
+    <div class="scroll-dot"></div>
+    <div class="scroll-dot"></div>
+  </div>
+</section>
+
+<!-- IDENTITY STRIP -->
+<div class="identity-strip">
+  <div class="id-item"><strong>Founder</strong> · Restoring Eve Community</div>
+  <div class="id-item"><strong>Speaker</strong> · Women's Conferences</div>
+  <div class="id-item"><strong>Featured</strong> · Strong Willed Woman Magazine</div>
+  <div class="id-item"><strong>Host</strong> · The Missing Rib Workshop</div>
+  <div class="id-item"><strong>346 Members</strong> · Skool Community</div>
+</div>
+
+<!-- ══ VIDEO SECTION ══ -->
+<section class="video-section" id="watch">
+  <div class="video-inner reveal">
+
+    <!-- Left: text -->
+    <div class="video-text">
+      <p class="section-pill">Watch the Vision</p>
+      <h2>See what <em>God is doing</em><br>through this community</h2>
+      <p>From opening up a home with no furniture — <strong>just obedience, vision, and faith</strong> — to a movement of hundreds of women walking in their calling.</p>
+      <p>Watch Serenity share the heart behind Restoring Eve and what it looks like when women choose to show up for each other.</p>
+      <a class="video-watch-btn" href="#watch" onclick="toggleMute(); return false;">
+        <span class="play-icon">🔊</span>
+        Tap to Unmute
+      </a>
+    </div>
+
+    <!-- Right: phone mockup -->
+    <div class="video-phone-wrap">
+      <!-- Floating hearts -->
+      <span class="float-heart">🤍</span>
+      <span class="float-heart">✨</span>
+      <span class="float-heart">🌸</span>
+
+      <div class="phone-frame">
+        <div class="phone-notch">
+          <div class="notch-dot"></div>
+          <div class="notch-bar"></div>
+          <div class="notch-dot"></div>
+        </div>
+        <div class="phone-screen" id="phoneScreen">
+          <!-- Autoplay video fills the phone screen -->
+          <video
+            id="phoneVideo"
+            src="https://assets.cdn.filesafe.space/GA5AwF8OwmHBfzwOtfPA/media/69eb715d6c819d3c6f5498f4.mp4"
+            autoplay
+            muted
+            playsinline
+            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:30px;z-index:4;"
+          ></video>
+          <!-- Tap to unmute button -->
+          <button id="unmuteBtn" onclick="toggleMute()" style="position:absolute;bottom:3.5rem;right:.8rem;z-index:6;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:50%;width:34px;height:34px;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);">🔇</button>
+          <div class="screen-insta-bar" style="z-index:5;">
+            <span class="insta-bar-icon">🤍</span>
+            <span class="insta-bar-icon">💬</span>
+            <span class="insta-bar-icon">📤</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Side stats -->
+  <div class="video-side-deco">
+    <div class="side-stat">
+      <span class="side-stat-num">346</span>
+      <span class="side-stat-label">Members</span>
+    </div>
+    <div class="side-stat">
+      <span class="side-stat-num">3+</span>
+      <span class="side-stat-label">Events</span>
+    </div>
+    <div class="side-stat">
+      <span class="side-stat-num">∞</span>
+      <span class="side-stat-label">Faith</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-visual">
+    <div class="deco-cross">✝</div>
+    <div class="about-quote-block">
+      <p class="big-quote">"God never asked<br>me to have it<br>all together.<br>He asked me<br>to move."</p>
+      <p class="quote-source">— Serenity Magee</p>
+    </div>
+  </div>
+  <div class="about-text reveal">
+    <p class="section-pill">Her Story</p>
+    <h2>Started with <em>obedience,</em><br>not perfection</h2>
+    <p>There was a time I was opening up my home with no furniture, no real setup — not even all the things I felt like I "needed" to look credible. <strong>Just obedience. Just vision. Just faith.</strong></p>
+    <p>What I had in the beginning may not have looked like much to other people, but it was enough for God to work with. I gave Him my yes, and He's been watering the vision ever since.</p>
+    <p>Restoring Eve Community was born from that place — a space where women stop carrying invisible weights alone, and start walking out lighter, together.</p>
+    <div class="press-badge">
+      <span style="font-size:1.1rem">📖</span>
+      <div class="press-badge-text">
+        <strong>As featured in Strong Willed Woman Magazine</strong>
+        "Strength &amp; Sisterhood: The Power Women Unlock When They Stand Together"
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section class="events" id="events">
+  <div class="section-header reveal">
+    <p class="section-pill" style="justify-content:center">Gatherings &amp; Events</p>
+    <h2>Come as you are.<br><em>Leave transformed.</em></h2>
+    <p>Every event is designed with intention — for women ready to sit with the Word, do the work, and be in community.</p>
+  </div>
+  <div class="events-grid">
+    <div class="event-card reveal">
+      <div class="event-card-top missing-rib">
+        <span class="event-emoji">🌹</span>
+        <span class="event-ribbon ribbon-upcoming">Upcoming · June 20</span>
+      </div>
+      <div class="event-card-body">
+        <p class="event-tag">Workshop · Relationships &amp; Faith</p>
+        <h3>The Missing Rib Workshop</h3>
+        <p>A space for intentional believers serious about doing this God's way. Kingdom marriage is built, not just given — come ready to do the work.</p>
+        <div class="event-details">
+          <div class="event-detail-row"><span>📅</span> June 20th, 2025</div>
+          <div class="event-detail-row"><span>⏰</span> 11AM – 3PM</div>
+          <div class="event-detail-row"><span>📍</span> Atlanta, Georgia</div>
+          <div class="event-detail-row"><span>🎟️</span> Panel · Breakout Sessions</div>
+        </div>
+        <a class="event-btn filled" href="https://checkout.square.site/merchant/MLPSA8BQCDR3V/checkout/HTCVISHTWYTZ3TEUUFJ26JGQ" target="_blank">Get Early Bird Tickets →</a>
+      </div>
+    </div>
+    <div class="event-card reveal" style="transition-delay:.15s">
+      <div class="event-card-top in-garden">
+        <span class="event-emoji">🌿</span>
+        <span class="event-ribbon ribbon-past">Recent</span>
+      </div>
+      <div class="event-card-body">
+        <p class="event-tag">Bible Study · Women's Community</p>
+        <h3>In the Garden — Women's Bible Study</h3>
+        <p>Slow down, sit with the Word, and be in community with other women who love Jesus. Bring your blanket, Bible, and your whole heart.</p>
+        <div class="event-details">
+          <div class="event-detail-row"><span>📅</span> April 25th, 2025</div>
+          <div class="event-detail-row"><span>⏰</span> 3:30 – 5:30 PM</div>
+          <div class="event-detail-row"><span>📍</span> Piedmont Park, Atlanta</div>
+          <div class="event-detail-row"><span>🦋</span> Restoring Eve Presents</div>
+        </div>
+        <a class="event-btn" href="https://www.instagram.com/_restoring.eve/" target="_blank">Follow for Next Date →</a>
+      </div>
+    </div>
+    <div class="event-card reveal" style="transition-delay:.3s">
+      <div class="event-card-top skool-card">
+        <span class="event-emoji">🕊️</span>
+        <span class="event-ribbon ribbon-free">Free · 346 Members</span>
+      </div>
+      <div class="event-card-body">
+        <p class="event-tag">Online Community · Always Open</p>
+        <h3>Restoring Eve — Skool Community</h3>
+        <p>A Christ-centered sisterhood for healing, growth, and real conversation. We support, pray, and become together — online, every day.</p>
+        <div class="event-details">
+          <div class="event-detail-row"><span>🌐</span> Online · skool.com</div>
+          <div class="event-detail-row"><span>👥</span> 346 Members &amp; Growing</div>
+          <div class="event-detail-row"><span>✝️</span> Christ-Centered · Free to Join</div>
+        </div>
+        <a class="event-btn green" href="https://www.skool.com/becoming-her-9746/about" target="_blank">Join for Free →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION QUOTE -->
+<section class="mission-quote">
+  <div class="mission-inner reveal">
+    <blockquote>
+      "When women gather with intention, strength becomes contagious. One woman's testimony becomes another woman's breakthrough. One woman's courage inspires someone else to speak up for the very first time."
+    </blockquote>
+    <p class="mission-attribution">— Serenity Magee · Strong Willed Woman Magazine</p>
+    <div class="mission-tags">
+      <span class="mission-tag">Faith</span>
+      <span class="mission-tag">Sisterhood</span>
+      <span class="mission-tag">Healing</span>
+      <span class="mission-tag">Kingdom</span>
+      <span class="mission-tag">Purpose</span>
+      <span class="mission-tag">Community</span>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE -->
+<section class="feature-section">
+  <div class="feature-text reveal">
+    <p class="section-pill">As Seen In</p>
+    <h2>Strength &amp; <em>Sisterhood</em></h2>
+    <p><strong>"Comparison drains strength. Community builds it."</strong> Women are strongest when they stop competing and start connecting.</p>
+    <p>We were never meant to do life alone. Even biblically, the pattern of God is partnership — Moses had Aaron, Naomi had Ruth, Mary had Elizabeth.</p>
+    <p>Every woman God used powerfully had someone beside her, speaking life, offering support, and reminding her who she was when she forgot.</p>
+    <a class="read-more" href="https://www.strongwilledwomanmagazine.com" target="_blank">Read the Full Feature →</a>
+  </div>
+  <div class="feature-visual">
+    <div style="padding:3rem;">
+      <div class="magazine-badge">
+        <p class="mag-label">✦ Featured Article ✦</p>
+        <div class="mag-title">Strength &amp; <em>Sisterhood:</em></div>
+        <div class="mag-divider"></div>
+        <p class="mag-sub">The Power Women Unlock<br>When They Stand Together</p>
+        <div class="mag-divider"></div>
+        <div class="mag-author">Serenity Magee</div>
+        <p class="mag-sub" style="margin-top:.5rem;font-size:.65rem;opacity:.7">Founder · Restoring Eve Community</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section class="community" id="community">
+  <p class="section-pill" style="justify-content:center; margin-bottom:1rem">The Community</p>
+  <h2>You were never meant<br>to do this <em>alone</em></h2>
+  <p>Restoring Eve is more than an event — it's a movement of women choosing sisterhood over isolation, and faith over fear. 346 women and growing.</p>
+  <div class="community-grid">
+    <div class="community-card reveal">
+      <span class="community-icon">🙏</span>
+      <h3>Faith-Rooted</h3>
+      <p>Every gathering is grounded in the Word. We sit with scripture, pray together, and hold each other accountable to our calling.</p>
+    </div>
+    <div class="community-card reveal" style="transition-delay:.15s">
+      <span class="community-icon">🤝</span>
+      <h3>Sisterhood</h3>
+      <p>Real women. Real stories. Real support. A space where you're seen, heard, and celebrated — exactly as you are.</p>
+    </div>
+    <div class="community-card reveal" style="transition-delay:.3s">
+      <span class="community-icon">🌱</span>
+      <h3>Intentional Growth</h3>
+      <p>From workshops to Bible studies, every experience is designed to move you forward — in faith, purpose, and wholeness.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DONATE -->
+<section class="donate-banner reveal">
+  <p class="section-pill" style="justify-content:center; margin-bottom:1rem">Support the Vision</p>
+  <h2>Help us keep <em>building</em></h2>
+  <p>Restoring Eve Community runs on faith and generosity. Your donation helps fund free events, resources, and spaces for women who need it most.</p>
+  <a class="donate-btn" href="https://checkout.square.site/merchant/MLPSA8BQCDR3V/checkout/AHAVAMO4ULPMSMA4ANIWVAAV" target="_blank">💛 Make a Donation</a>
+</section>
+
+<!-- CONNECT CTA -->
+<section class="connect-cta" id="connect">
+  <h2>Ready to join the family?</h2>
+  <p>Follow along on Instagram for event updates, community moments, and daily encouragement. Or jump straight into the Skool community — it's free.</p>
+  <div class="connect-btns">
+    <a class="btn-primary" href="https://www.instagram.com/iamserenitygrace_/" target="_blank">Follow @iamserenitygrace_</a>
+    <a class="btn-ghost-white" href="https://www.skool.com/becoming-her-9746/about" target="_blank">Join Skool Community — Free</a>
+    <a class="btn-ghost-white" href="https://www.instagram.com/_restoring.eve/" target="_blank">@_restoring.eve</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Serenity Grace</div>
+  <div class="footer-tagline">Restoring Eve Community · Atlanta, Georgia</div>
+  <ul class="footer-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#watch">Watch</a></li>
+    <li><a href="#events">Events</a></li>
+    <li><a href="https://checkout.square.site/merchant/MLPSA8BQCDR3V/checkout/HTCVISHTWYTZ3TEUUFJ26JGQ" target="_blank">Missing Rib Tickets</a></li>
+    <li><a href="https://www.skool.com/becoming-her-9746/about" target="_blank">Join Community</a></li>
+    <li><a href="https://checkout.square.site/merchant/MLPSA8BQCDR3V/checkout/AHAVAMO4ULPMSMA4ANIWVAAV" target="_blank">Donate</a></li>
+    <li><a href="https://www.instagram.com/iamserenitygrace_/" target="_blank">Instagram</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 Serenity Magee · Restoring Eve Community · Made with love &amp; faith ♡</p>
+</footer>
+
+<script>
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.boxShadow = window.scrollY > 60 ? '0 4px 24px rgba(42,26,31,.08)' : 'none';
+  });
+  function toggleMute() {
+    const video = document.getElementById('phoneVideo');
+    const btn   = document.getElementById('unmuteBtn');
+    if (!video) return;
+    video.muted = !video.muted;
+    btn.textContent = video.muted ? '🔇' : '🔊';
+  }
+
+  const revealEls = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
