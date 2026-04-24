@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
   <title>Serenity Grace — Restoring Eve</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,8 +27,8 @@
       --light-pink: #faeaec;
     }
 
-    html { scroll-behavior: smooth; }
-    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+    html { scroll-behavior: smooth; max-width: 100%; overflow-x: hidden; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; width: 100%; max-width: 100vw; }
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--cream); }
     ::-webkit-scrollbar-thumb { background: var(--mauve); border-radius: 3px; }
@@ -389,21 +389,55 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
-      nav { padding: 1rem 1.5rem; }
+      html, body { width: 100%; overflow-x: hidden; }
+
+      nav { padding: 1rem 1.2rem; }
       .groudon { display: none; }
+
+      /* Hero full bleed */
+      .blaziken { width: 100vw; min-height: 100svh; }
+      .metagross { padding: 1.2rem 1.5rem; width: 100%; }
+      .milotic { flex-direction: column; gap: .75rem; width: 100%; }
+      .porygon2, .porygonz {
+        width: 100%; text-align: center;
+        padding: .85rem 1rem; display: block;
+      }
+
+      /* Identity strip */
+      .registeel { flex-direction: column; width: 100%; overflow: hidden; }
+      .wurmple {
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,.15);
+        text-align: center; width: 100%;
+        padding: .85rem 1rem; white-space: normal;
+        font-size: .63rem;
+      }
+
+      /* Grids */
       .claydol, .golem { grid-template-columns: 1fr; }
-      .banette { min-height: 300px; }
-      .spinda, .tentacruel { padding: 3.5rem 2rem; }
-      .tentacool { min-height: 300px; }
-      .sealeo { padding: 5rem 1.5rem; }
+      .banette { min-height: 260px; }
+      .spinda, .tentacruel { padding: 3rem 1.5rem; }
+      .tentacool { min-height: 260px; }
+      .sealeo { padding: 4rem 1.2rem; }
       .relicanth { grid-template-columns: 1fr; }
-      .jolteon { padding: 5rem 1.5rem; }
+      .jolteon { padding: 4rem 1.2rem; }
       .flareon { grid-template-columns: 1fr; }
-      .registeel { flex-direction: column; }
-      .wurmple { border-right: none; border-bottom: 1px solid rgba(255,255,255,.15); text-align: center; }
-      .slaking { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+
+      /* Video */
+      .breloom { padding: 4rem 1.5rem; }
+      .slaking { grid-template-columns: 1fr; gap: 2.5rem; text-align: center; }
       .medicham { order: -1; }
       .seviper { display: none; }
+      .altaria { width: 220px; }
+
+      /* Buttons */
+      .porygon { flex-direction: column; align-items: center; gap: .75rem; }
+      .togepi { width: 100%; text-align: center; display: block; }
+
+      /* Other */
+      .leafeon { padding: 3rem 1.5rem; }
+      .sylveon { padding: 4rem 1.5rem; }
+      footer { padding: 2.5rem 1.5rem 1.5rem; }
     }
 
     /* ── REVEAL ── */
